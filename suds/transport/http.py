@@ -64,7 +64,7 @@ class HttpTransport(Transport):
             u2request = urllib2.Request(url)
             self.proxy = self.options.proxy
             return self.u2open(u2request)
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as e:
             raise TransportError(str(e), e.code, e.fp)
 
     def send(self, request):
@@ -85,7 +85,7 @@ class HttpTransport(Transport):
             reply = Reply(httplib.OK, headers, fp.read())
             log.debug('received:\n%s', reply)
             return reply
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as e:
             if e.code not in (httplib.ACCEPTED, httplib.NO_CONTENT):
                 raise TransportError(e.msg, e.code, e.fp)
 
@@ -159,7 +159,7 @@ class HttpTransport(Transport):
         try:
             part = urllib2.__version__.split('.', 1)
             return float('.'.join(part))
-        except Exception, e:
+        except Exception as e:
             log.exception(e)
             return 0
 
