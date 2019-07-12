@@ -239,7 +239,7 @@ class Factory:
         else:
             try:
                 result = self.builder.build(type)
-            except Exception, e:
+            except Exception as e:
                 log.error("create '%s' failed", name, exc_info=True)
                 raise BuildError(name, e)
         timer.stop()
@@ -564,7 +564,7 @@ class Method:
         client = clientclass(self.client, self.method)
         try:
             return client.invoke(args, kwargs)
-        except WebFault, e:
+        except WebFault as e:
             if self.faults():
                 raise
             return httplib.INTERNAL_SERVER_ERROR, e
@@ -747,7 +747,7 @@ class _SoapClient:
             reply = self.options.transport.send(request)
             timer.stop()
             metrics.log.debug("waited %s on server reply", timer)
-        except suds.transport.TransportError, e:
+        except suds.transport.TransportError as e:
             content = e.fp and e.fp.read() or ""
             return self.process_reply(content, e.httpcode, tostr(e))
         return self.process_reply(reply.message, None, None)
